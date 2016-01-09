@@ -1,0 +1,28 @@
+mongo:
+    image: "mongo"
+    volumes:
+        - ~/data/mongo:/data/db
+        - ~/log/mongo:/var/log/mongo
+
+apache:
+    image: "apache"
+    expose:
+        - "80"
+    ports:
+        - "80:80"
+    volumes:
+        - ~/log/apache:/var/log/apache2/
+        - ~/site:/site
+    links:
+        - "mongo"
+        - "elasticsearch"
+
+elasticsearch:
+    image: "elasticsearch"
+    expose:
+        - "9200"
+    ports:
+        - "9200:9200"
+    volumes:
+        - ~/log/elastic:/usr/share/elasticsearch/logs
+        - ~/data/elastic:/usr/share/elasticsearch/data
